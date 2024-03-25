@@ -5,5 +5,5 @@ This is a LaTex Cover Letter Template for communicating with editors and reviewe
 
 Modified the style of the footer relative to original template, each page comes with a footer.
 
-![.](\img1.png)
+![.](/img1.png)
 
