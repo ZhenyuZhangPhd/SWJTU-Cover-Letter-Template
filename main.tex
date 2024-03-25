@@ -1,0 +1,212 @@
+% SWJTUletter_example.tex - an example latex file to illustrate SWUFEletter.cls
+
+% Template by Brian Wood (brian.wood@oregonstate.edu).  Please feel free to send suggestions for changes; this template/cls is not exactly elegantly done!
+
+% Modified version: Huang Weiran (huangweiran1998@outlook.com)  for FDU; Luyi Li (owenliluyi@gmail.com) for NJU; MincooLee (mincoolee@gmail.com) for HIT.
+
+% This new version was added hyperlinks for linking web addresses (email and URL) and the "missing" footer, modified by He Yaxuan (ashleyhe678@163.com) to fit the need of SWUFE students based on the versions mentioned above. 
+
+
+% New version modified by ZhenyuZhang (zzySWJTU@my.swjtu.edu.com), 2024,3,25
+
+\documentclass[12pt]{SWJTUletter}
+%\usepackage{fontspec} % if Uncomment this sentence , use XeLaTex builder
+\usepackage{tikz} 
+\usepackage{xcolor}
+	\definecolor{softblue}{cmyk}{1, 0.4, 0, 0.1} %{RGB}{0,113,188} is also okay.
+\usepackage{lipsum}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{eso-pic}
+\usepackage[base]{babel}
+\usepackage[hidelinks]{hyperref}
+\urlstyle{same}
+%
+% This section is just a bunch of busywork so that the second and following pages read ``Page X of Y''
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\rhead{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+%
+%
+% Set custom font here. Comment this line out if you do not have a Cambria font (originally included with this template) installed; computer modern (or whatever your current default font is) will be substituted.
+%
+%\setmainfont{[Cambria.ttf]}[BoldFont  = [CambriaBold.ttf], ItalicFont  = [CambriaItalic.ttf], BoldItalicFont = [CambriaBoldItalic.ttf] ] % if Uncomment this sentence , use XeLaTex builder
+
+\newcommand{\watermark}[3]{\AddToShipoutPictureBG{
+\parbox[b][\paperheight]{\paperwidth}{
+\vfill%
+\centering%
+\begin{tikzpicture} [opacity=0.1]
+    \path (0,0) -- (\paperwidth,\paperheight);
+    \node at (current page.center)
+    {\includegraphics[width=0.55\textwidth]{1024px-SWJTU_logo.png}};
+    \end{tikzpicture}
+\vfill}}}
+
+% The material below is a whole big dang thing whose purpose is just to set up a fixed coordinate system for \tikz so that you can put the Department or School address in the upper right-hand side without it moving all around every time you change something in the page.  I think it works.
+% Defining a new coordinate system for the page:
+%
+% --------------------------
+% |(-1,1)    (0,1)    (1,1)|
+% |                        |
+% |(-1,0)    (0,0)    (1,0)|
+% |                        |
+% |(-1,-1)   (0,-1)  (1,-1)|
+% --------------------------
+\makeatletter
+\def\parsecomma#1,#2\endparsecomma{\def\page@x{#1}\def\page@y{#2}}
+\tikzdeclarecoordinatesystem{page}{
+    \parsecomma#1\endparsecomma
+    \pgfpointanchor{current page}{north east}
+    % Save the upper right corner
+    \pgf@xc=\pgf@x%
+    \pgf@yc=\pgf@y%
+    % save the lower left corner
+    \pgfpointanchor{current page}{south west}
+    \pgf@xb=\pgf@x%
+    \pgf@yb=\pgf@y%
+    % Transform to the correct placement
+    \pgfmathparse{(\pgf@xc-\pgf@xb)/2.*\page@x+(\pgf@xc+\pgf@xb)/2.}
+    \expandafter\pgf@x\expandafter=\pgfmathresult pt
+    \pgfmathparse{(\pgf@yc-\pgf@yb)/2.*\page@y+(\pgf@yc+\pgf@yb)/2.}
+    \expandafter\pgf@y\expandafter=\pgfmathresult pt
+}
+
+\makeatother
+%
+%
+%%%%%%%%%%% Put Personal Information Here %%%%%%%%%%%
+%
+\def\name{Van Darkholme,\\
+Professor of getting fat,\\
+School of Information Science and Technology,
+\mbox{Southwest Jiaotong University}.
+}
+%
+% List your degree(s), licences, etc. here if you like.
+%\def\What{, Your degrees, etc.} 
+%
+% Set the name of your Department or School here
+% I honestly don't know why the negative spacing is necessary to get the alignment of the first line correct.  This must be a ``\tikz'' thing.
+%%%%%%%%%%%%%%%%%%  School or Department %%%%%%%%%%%%%%%
+\def\Where{\hspace{-1.2mm}\textbf{\color{softblue}
+School of Information Science and Technology, \mbox{Southwest Jiaotong University}
+}} 
+%%%%%%%%%%%%  Additional Contact Information %%%%%%%%%%%
+%
+% Set your preferred primary contact address here.
+\def\Address{No. 999, Xi'an Road,\\ 
+Pidu District,} 
+%
+\def\CityZip{Chengdu, Sichuan, 611756, P.R.China} 
+%
+% Set your e-mail here
+\def\Email{\textbf{\color{softblue}E-mail}: \href{mailto:zzySWJTU@my.swjtu.edu.cn}{zzySWJTU@my.swjtu.edu.cn}}
+%
+% Set your preferred contact number here
+\def\TEL{\textbf{\color{softblue}TEL}: +86-28-66366666}
+%
+\def\FAX{\textbf{\color{softblue}FAX}: 28-66366666}
+
+% Set your department or personal website here
+\def\URL{\textbf{\color{softblue}URL}: \url{https://sist.swjtu.edu.cn/}}
+%
+%%%%%%%%%%%%%%%%  Footer information  %%%%%%%%%%%%%%%%%%
+% NOTE: Actually I don't think here's right place to set the footer. You'd better try it in SWJTUletter.cls (from He)
+
+%  The next line is for your college, used as a footer.  If you prefer not to have this, just comment out these lines in favor of the line labeled "[[Alternate]]" below
+%\def\school{\small{
+%  SWJTU \\
+%     ~School of Optoelectronic Engineering $\cdot$
+%     ~No.1, Jinji Road $\cdot$
+%     ~Guilin, Guangxi Zhuang A.R., Chinas} } 
+ \def\school{~}  % [[Alternate]]
+%
+%%%%%%%%%%%%%%%%%%%%%  Signature line  %%%%%%%%%%%%%%%%%%%%%
+%
+% Set your signature line here.
+% One can add a signature image in a PDF file using the following code; this requires a file called "signature_block.pdf" to be installed in the same folder as the .tex file.  The vertical spacing (\vspace) and the scaling will have to be adjusted to get things to look correct for your particular signature image. Alternatively, comment out the following line in favor of the one labeled "[[Alternate]]" if you want to sign a paper copy of the letter.
+%
+\signature{ 
+\vspace{-12mm}\includegraphics[scale=0.40]{signature_block.pdf}\\\vspace{-2mm}
+\name}
+%\signature{\name}  % [[Alternate]]
+
+% This block sets up the address on the right-hand side of the header. 
+%
+% The following lines just compile the information you set up into the LaTex letter variable "address" for later use.
+%
+%The following command "clears out" the default address so that it can be better set using \tikz
+\address{}
+
+\def\newaddress{
+\Where\\ 
+\Address\\ 
+\CityZip\\ 
+\TEL\\ 
+\FAX\\
+\Email\\ 
+\URL 
+}
+%
+%%%%%%%%%%%  DATE  %%%%%%%%%%%%%%%%%%%%%%%%%
+% If you want a date different from the current date, comment out the next line in favor of the line labeled "[[Alternate]]".  The ``\vspace{10mm}'' just moves the date down a tiny bit so it doesn't interfere with the header.  This can be adjusted to your preference.
+%
+\date{\vspace{10mm} \today}
+%\date{\vspace{10mm} 20 September 2020}  %[[Alternate]]
+%
+%%%%%%%%%%% Set the subject here if there is one  %%%%
+%\subject{Stuff} % optional subject line
+
+\begin{document}
+%
+%
+%%%%%%%%  The "To" address goes here.
+%
+\begin{letter}{
+               Professor\ GG Bond \\
+               Editor-in-Chief \\
+               \textit{IEEE Transactions on Fat Technology}
+               }
+% This line sets up the return address to the right-side of the OSU logo.  The location is set with absolute node addresses using ``\tikz''.  It can still be a bit fussy, and you may need to alter this a little to get things to look right.  The bit that changes the position are the numbers in parentheses ``at (14.2,2.7)''
+%
+\begin{tikzpicture}[remember picture,overlay,,every node/.style={anchor=center}]
+\node[text width=7cm] at (page cs:0.5,0.73){\small \newaddress};
+\end{tikzpicture} 
+
+%%%%%%  The ``opening'' is just the method of address you would like to use at the start of the letter.
+%
+\pagestyle{empty}
+\opening{Dear Editor and Reviewer,}
+
+%%%%%%%%%% Body of letter   %%%%%%%%%%%%%%
+% Remove it if you do not want watermark
+\watermark{}{}{}
+
+% The "\lipsum[1-5]" command just fills the letter with 5 paragraphs of Latin for the purposes of filler.  Unless you really want to send filler Latin to someone, you will replace this command with actual text. COMMENT the "\lipsum[1-5]" and DO that here:
+
+I presented a paper entitled "XXX" at the XXX(name of conference) in XXX City, XXX Country, MM/YY. I was invited to submit an upgraded manuscript for possible publication in either IEEE Transactions on Industry Applications or IEEE Industry Applications Magazine.
+
+The original conference paper emphasized XXX (talk about your work of conference paper briefly). During the conference presentation, one relevant question was raised: XXX (this will show that you have deeply communicated with peers, and this is what your newly add in the journal paper).
+
+Borrowing from that discussion last year, the main contribution of the new submission is to XXX (briefly introduce your new work in journal paper). As a result of this process, the original conference paper has been rewritten almost in full (Remember that the referral is not directly on the cast, the full text needs to be rewritten, or the first round of submissions editors see the high rate of repetition will also be directly returned!), with new results being presented given the additional scope of the work. The title of the new submission has been changed to “XXX(new title)”. In the paper, XXX (Expand to talk about your new work in this paper, such as the new addition of simulations and experiments).
+
+To ensure transparency of the work, the original conference paper has been cited as reference [X] with a suitable accompanying explanation. We believe the new submission satisfies the IEEE policy.
+
+\lipsum[1-5]
+
+%%%%%%% ``closing'' sets the sign-off line. %if you don't want it ,just comment this
+\closing{Sincerely yours,}
+
+% Comment out/in the lines below as necessary
+%\encl{If an enclosure is provided, let them know what it is.}
+
+%\ps{A postscript if that is a thing you do.}
+
+%\cc{Someone Who Cares (and is copied).}
+
+\end{letter}
+
+\end{document}
