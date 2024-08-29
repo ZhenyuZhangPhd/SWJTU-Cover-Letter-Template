@@ -10,3 +10,6 @@ TODO: Add some flattering words for viewers.
 Cover Letter is shown as: 
 ![figure](/img1.png)
 
+ADD:
+添加了高清的西南交通大学校徽logo的矢量图SVG格式
+
